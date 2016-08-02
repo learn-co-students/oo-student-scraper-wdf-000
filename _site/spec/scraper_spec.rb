@@ -44,6 +44,7 @@ describe "Scraper" do
       profile_url = "http://127.0.0.1:4000/fixtures/student-site/students/david-kim.html"
       scraped_student = Scraper.scrape_profile_page(profile_url)
       expect(scraped_student).to be_a(Hash)
+      # binding.pry
       expect(scraped_student).to match(student_david_hash)
     end
   end
