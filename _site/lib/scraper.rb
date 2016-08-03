@@ -32,7 +32,7 @@ class Scraper
       elsif(link.attribute("href").value.include?("github"))
         hash[:github] = link.attribute("href").value
 
-      else
+      elsif(link.attribute("href").value.include?("http"))
         hash[:blog] = link.attribute("href").value
       end
     end
