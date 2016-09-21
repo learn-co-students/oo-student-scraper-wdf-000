@@ -4,6 +4,7 @@ require 'pry'
 class Scraper
 
   def self.scrape_index_page(index_url)
+    #index_url = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/"))
     index_url = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/"))
     #binding.pry
 
@@ -12,6 +13,7 @@ class Scraper
         :name => info.css("h4").text,
         :location => info.css("p").text,
         :profile_url => "http://127.0.0.1:4000/" + info.css("a").attribute("href").value
+        #:profile_url => info.css("a").attribute("href").value
       }
     end
   end
@@ -27,12 +29,12 @@ class Scraper
 
 
   def self.scrape_profile_page(profile_url)
-    profile = Nokogiri::HTML(open(profile_url))
-    #binding.pry
+    profile_url = Nokogiri::HTML(open(profile_url))
+    profile = profile_url.css("div.social-icon-container")
 
     student_attributes = {}
 
-    social_media = profile.css("div.social-icon-container a").map {|social| social.attribute("href").value}
+    social_media = profile.css("a").map {|social| social.attribute("href").value}
     social_media.each do |social|
       if social.include?("twitter")
         student_attributes[:twitter] = social
@@ -45,12 +47,11 @@ class Scraper
       end
     end
 
-    student_attributes[:profile_quote] = profile.css("div.profile-quote").text
-    student_attributes[:bio] = profile.css("div.description-holder p").text
+    student_attributes[:profile_quote] = profile_url.css("div.profile-quote").text
+    student_attributes[:bio] = profile_url.css("div.description-holder p").text
     student_attributes
 
   #profile_url changed in RSPEC otherwise connection refused
-  #why is this not an array of hashes?
   #nokogiri & open_URI; nested iteration; return value is hash with key/value pairs for each student, account for students with no social media
   #:keys are :twitter, :linkedin, :github, :blog,:profile_quote, :bio
   #social_media: doc.css("div.social-icon-container a")
