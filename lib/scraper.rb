@@ -21,7 +21,7 @@ class Scraper
   #individual student name: doc.css("student-card").doc.css.("h4").text
   #location: doc.css("student-card").doc.css.("p").text
   #profile_url: doc.css("student-card").doc.css("a").attribute("href").value
-  #index_url = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/"))
+  #doc = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/"))
   #binding.pry
 
 
@@ -57,7 +57,7 @@ class Scraper
   #social_media_sites: doc.css("div.social-icon-container a").attribute("href").value
   #profile_quote: doc.css("div.profile-quote").text
   #bio: doc.css("div.description-holder p").text
-  #profile_url = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/students/joe-burgess.html")) #changed from "http://127.0.0.1:4000/" connection refused over port on Learn IDE
+  #doc = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/students/joe-burgess.html")) #changed from "http://127.0.0.1:4000/" connection refused over port on Learn IDE
   #binding.pry
 
 
