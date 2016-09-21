@@ -5,6 +5,7 @@ class Scraper
 
   def self.scrape_index_page(index_url)
     index_url = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/"))
+    #binding.pry
 
     index_url.css(".student-card").map do |info|
       {
@@ -17,16 +18,17 @@ class Scraper
   #uses nokogiri and open_URI to access page; return value is an array of hashes where each hash represents an individual student
   #keys for Student hash should be :name, :location, :profile_url
   #colection of students: doc.css(".student-card")
-  #individual student name: doc.css("h4.student-card").text
-  #location: doc.css("p.student-card").text
-  #profile_url: doc.css("a.student-card").attribute("href").value
-  #doc = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/"))
+  #individual student name: doc.css("student-card").doc.css.("h4").text
+  #location: doc.css("student-card").doc.css.("p").text
+  #profile_url: doc.css("student-card").doc.css("a").attribute("href").value
+  #index_url = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/"))
   #binding.pry
 
 
 
   def self.scrape_profile_page(profile_url)
     profile = Nokogiri::HTML(open(profile_url))
+    #binding.pry
 
     student_attributes = {}
 
@@ -48,13 +50,14 @@ class Scraper
     student_attributes
 
   #profile_url changed in RSPEC otherwise connection refused
-  #nokogiri & open_URI; return value is hash with key/value pairs for each student, account for students with no social media
+  #why is this not an array of hashes?
+  #nokogiri & open_URI; nested iteration; return value is hash with key/value pairs for each student, account for students with no social media
   #:keys are :twitter, :linkedin, :github, :blog,:profile_quote, :bio
   #social_media: doc.css("div.social-icon-container a")
   #social_media_sites: doc.css("div.social-icon-container a").attribute("href").value
   #profile_quote: doc.css("div.profile-quote").text
   #bio: doc.css("div.description-holder p").text
-  #doc = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/students/ryan-johnson.html"))
+  #profile_url = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/students/joe-burgess.html")) #changed from "http://127.0.0.1:4000/" connection refused over port on Learn IDE
   #binding.pry
 
 
