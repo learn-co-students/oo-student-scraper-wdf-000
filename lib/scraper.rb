@@ -30,11 +30,14 @@ class Scraper
 
   def self.scrape_profile_page(profile_url)
     profile_url = Nokogiri::HTML(open(profile_url))
-    profile = profile_url.css("div.social-icon-container")
 
     student_attributes = {}
 
+    profile = profile_url.css("div.social-icon-container")
     social_media = profile.css("a").map {|social| social.attribute("href").value}
+    profile_quote = profile_url.css("div.profile-quote").text
+    bio = profile_url.css("div.description-holder p").text
+
     social_media.each do |social|
       if social.include?("twitter")
         student_attributes[:twitter] = social
@@ -47,9 +50,11 @@ class Scraper
       end
     end
 
-    student_attributes[:profile_quote] = profile_url.css("div.profile-quote").text
-    student_attributes[:bio] = profile_url.css("div.description-holder p").text
+    student_attributes[:profile_quote] = profile_quote
+    student_attributes[:bio] = bio
     student_attributes
+  end
+end
 
   #profile_url changed in RSPEC otherwise connection refused
   #nokogiri & open_URI; nested iteration; return value is hash with key/value pairs for each student, account for students with no social media
@@ -60,7 +65,3 @@ class Scraper
   #bio: doc.css("div.description-holder p").text
   #doc = Nokogiri::HTML(open("http://104.236.196.127:7061/fixtures/student-site/students/joe-burgess.html")) #changed from "http://127.0.0.1:4000/" connection refused over port on Learn IDE
   #binding.pry
-
-
-  end
-end
